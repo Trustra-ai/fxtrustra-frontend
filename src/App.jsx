@@ -1,36 +1,35 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import useAppStore from './stores/appStore'
-import Login from './pages/Login.jsx'
-import Register from './pages/Register.jsx'
-import Dashboard from './pages/Dashboard.jsx'
-import Navbar from './components/Navbar.jsx'
+import { useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-function App() {
-  const user = useAppStore((state) => state.user)
+function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login`, { email, password });
+      setMessage('Login successful: ' + JSON.stringify(res.data));
+      // Add redirect or token save here
+    } catch (err) {
+      setMessage('Error: ' + (err.response?.data || err.message));
+    }
+  };
 
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route
-          path="/login"
-          element={user ? <Navigate to="/dashboard" /> : <Login />}
-        />
-        <Route
-          path="/register"
-          element={user ? <Navigate to="/dashboard" /> : <Register />}
-        />
-        <Route
-          path="/dashboard"
-          element={user ? <Dashboard /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/"
-          element={<Navigate to={user ? "/dashboard" : "/login"} />}
-        />
-      </Routes>
-    </Router>
-  )
+    <div style={{ textAlign: 'center', marginTop: '100px' }}>
+      <h1>Login to FXTrustra</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required /><br/><br/>
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required /><br/><br/>
+        <button type="submit">Login</button>
+      </form>
+      <p>{message}</p>
+      <p>Don't have an account? <Link to="/register">Register here</Link></p>
+    </div>
+  );
 }
 
-export default App
+export default Login;
