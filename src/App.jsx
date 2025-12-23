@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-function Login() {
+function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -15,16 +15,15 @@ function Login() {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/login`,  // Fixed endpoint
+        `${import.meta.env.VITE_API_BASE_URL}/login`,
         { email, password }
       );
 
-      // Success actions
       setMessage('Login successful!');
-      localStorage.setItem('isLoggedIn', 'true');     // Mark as logged in
-      window.location.href = '/dashboard';            // Redirect to dashboard
+      localStorage.setItem('isLoggedIn', 'true');
+      window.location.href = '/dashboard'; // Redirect to dashboard
 
-      console.log('Login response:', res.data);       // Optional debug
+      console.log('Login response:', res.data);
     } catch (err) {
       const errorMsg = err.response?.data?.message || err.message || 'Login failed';
       setMessage('Error: ' + errorMsg);
@@ -96,10 +95,10 @@ function Login() {
       )}
 
       <p>
-        Don't have an account? <Link to="/register" style={{ color: '#007bff' }}>Register here</Link>
+        Don't have an account? <Link to="/register" style={{ color: '#007bff', textDecoration: 'none' }}>Register here</Link>
       </p>
     </div>
   );
 }
 
-export default Login;
+export default App;
