@@ -15,15 +15,18 @@ function Login() {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/login`,
+        `${import.meta.env.VITE_API_BASE_URL}/login`,  // Fixed endpoint
         { email, password }
       );
-      setMessage('Login successful: ' + JSON.stringify(res.data));
-      // Optional: Save token to localStorage or Zustand store
-      // localStorage.setItem('token', res.data.token);
-      // Then redirect to dashboard
+
+      // Success actions
+      setMessage('Login successful!');
+      localStorage.setItem('isLoggedIn', 'true');     // Mark as logged in
+      window.location.href = '/dashboard';            // Redirect to dashboard
+
+      console.log('Login response:', res.data);       // Optional debug
     } catch (err) {
-      const errorMsg = err.response?.data?.message || err.message || 'Something went wrong';
+      const errorMsg = err.response?.data?.message || err.message || 'Login failed';
       setMessage('Error: ' + errorMsg);
     } finally {
       setLoading(false);
@@ -33,7 +36,7 @@ function Login() {
   return (
     <div style={{ textAlign: 'center', marginTop: '100px', fontFamily: 'Arial, sans-serif' }}>
       <h1>Login to FXTrustra</h1>
-      
+
       <form onSubmit={handleSubmit} style={{ margin: '40px auto', maxWidth: '400px' }}>
         <div style={{ marginBottom: '20px' }}>
           <input
