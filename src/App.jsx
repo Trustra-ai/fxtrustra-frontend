@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -21,7 +22,7 @@ function App() {
 
       setMessage('Login successful!');
       localStorage.setItem('isLoggedIn', 'true');
-      window.location.href = '/dashboard'; // Redirect to protected dashboard
+      window.location.href = '/dashboard';
 
       console.log('Login response:', res.data);
     } catch (err) {
