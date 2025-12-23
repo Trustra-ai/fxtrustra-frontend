@@ -21,7 +21,7 @@ function App() {
 
       setMessage('Login successful!');
       localStorage.setItem('isLoggedIn', 'true');
-      window.location.href = '/dashboard'; // Redirect to dashboard
+      window.location.href = '/dashboard'; // Redirect to protected dashboard
 
       console.log('Login response:', res.data);
     } catch (err) {
