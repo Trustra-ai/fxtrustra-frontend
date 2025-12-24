@@ -8,7 +8,7 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="min-h-screen bg-gray-100">
           <Routes>
             <Route path="/" element={<AuthForm />} />
             <Route element={<PrivateRoute />}>
